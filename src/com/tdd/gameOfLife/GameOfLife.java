@@ -4,7 +4,7 @@ public class GameOfLife {
 
     private int[][] board;
 
-    public GameOfLife(int[][] board) {
+    public  GameOfLife(int[][] board) {
         
         this.board = board;
 
@@ -17,7 +17,16 @@ public class GameOfLife {
         for(int i = 0, len = this.board.length; i< len; ++i) {
             for(int j = 0, len2 = this.board[i].length; j< len2; ++j) {
 
-                newBoard[i][j] = (getAmountOfNeighbours(i,j) < 2) ? 0 : this.board[i][j];
+                int newCellValue = this.board[i][j];
+                int neighbours = getAmountOfNeighbours(i,j);
+
+                if (neighbours < 2) newCellValue = 0;
+
+                if (neighbours > 3) newCellValue = 0;
+
+                if(neighbours == 3) newCellValue = 1;
+
+                newBoard[i][j] = newCellValue;
 
             }
         }
@@ -46,7 +55,7 @@ public class GameOfLife {
 
     private int getValueOf(int x, int y) {
         if(x<0 || y < 0) return 0;
-        if(x>=this.board.length || y>= this.board.length) return 0;
+        if(x>=this.board.length || y>= this.board[0].length) return 0;
 
         return this.board[x][y];
     }

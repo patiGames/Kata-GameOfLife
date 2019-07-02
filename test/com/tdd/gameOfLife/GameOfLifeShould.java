@@ -60,7 +60,7 @@ public class GameOfLifeShould {
         int [][] expectedGrid =
                 {
                         {0,1,0},
-                        {0,0,0},
+                        {0,1,0},
                         {0,0,0}
                 };
 
@@ -70,7 +70,7 @@ public class GameOfLifeShould {
     }
 
     @Test
-    public void cell_with_more_than_3_neighbours_dies() {
+    public void cell_with_more_than_3_neighbours_dies_with_3_returns_to_live() {
 
         int [][] grid =
                 {
@@ -82,15 +82,38 @@ public class GameOfLifeShould {
         GameOfLife gameOfLife = new GameOfLife(grid);
         gameOfLife.nextGen();
 
-        int [][] expectedGrid =
+        int [][] expectedGrid = new int[][]
                 {
                         {1,1,0},
-                        {0,0,0},
+                        {0,0,1},
                         {1,1,0}
                 };
 
 
         Assertions.assertArrayEquals(expectedGrid,
+                gameOfLife.getBoard());
+    }
+
+    @Test
+    void kill_every_cell_with_less_than_two_neighbours() {
+        int[][] initialWorld = {
+                {0, 0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 1, 0, 0, 0,},
+                {0, 0, 0, 0, 1, 0, 0, 0,},
+                {0, 0, 0, 0, 1, 0, 0, 0,}
+        };
+
+        GameOfLife gameOfLife = new GameOfLife(initialWorld);
+        gameOfLife.nextGen();
+
+        int[][] expectedWorld = new int[][] {
+                {0, 0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0, 0,},
+                {0, 0, 0, 1, 1, 1, 0, 0,},
+                {0, 0, 0, 0, 0, 0, 0, 0,}
+        };
+
+        Assertions.assertArrayEquals(expectedWorld,
                 gameOfLife.getBoard());
     }
 }
